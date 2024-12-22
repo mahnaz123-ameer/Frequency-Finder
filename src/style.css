@@ -1,0 +1,126 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container for the whole recorder */
+  .container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  /* Header */
+  h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Microphone access button */
+  button {
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3700b3;
+  }
+  
+  /* Toggle for mic access */
+  select,
+  label {
+    display: block;
+    margin: 10px auto;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  /* Mic access section */
+  .mic-section {
+    margin-top: 20px;
+  }
+  
+  /* Progress time display */
+  #progress {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  /* Recording controls */
+  .record-controls {
+    margin-top: 30px;
+  }
+  
+  /* Waveform container */
+  #wavesurfer-container {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 20px;
+    padding: 10px;
+  }
+  
+  /* Warning for low frequency */
+  .warning {
+    color: red;
+    margin-top: 15px;
+    font-size: 16px;
+  }
+  
+  .warning strong {
+    font-weight: bold;
+  }
+  
+  /* Container for recorded files */
+  #recordings {
+    margin-top: 30px;
+  }
+  
+  button#playPause {
+    background-color: #4caf50;
+    border-radius: 4px;
+    color: white;
+    padding: 5px 10px;
+    margin-top: 10px;
+  }
+  
+  button#playPause:hover {
+    background-color: #388e3c;
+  }
+  
+  /* Download link styles */
+  a.download-link {
+    display: block;
+    margin-top: 10px;
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  a.download-link:hover {
+    text-decoration: underline;
+  }
+  
