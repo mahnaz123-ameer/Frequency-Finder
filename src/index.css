@@ -1,8 +1,3 @@
-/* src/index.css (or create a new file) */
-
-/* Tailwind CSS base styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* You can also add custom styles here if needed */

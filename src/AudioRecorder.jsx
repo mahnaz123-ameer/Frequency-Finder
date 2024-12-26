@@ -8,14 +8,14 @@ const AudioRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [dominantFrequency, setDominantFrequency] = useState(null);
-  const [frequencyWarning, setFrequencyWarning] = useState(false); // To track low frequency warning
-  
+  const [frequencyWarning, setFrequencyWarning] = useState(false);
+
   const wavesurferRef = useRef(null);
   const recordRef = useRef(null);
   const micSelectRef = useRef(null);
   const progressRef = useRef(null);
-  const analyserRef = useRef(null); // Ref to store AnalyserNode
-  const audioContextRef = useRef(null); // Ref to store AudioContext
+  const analyserRef = useRef(null);
+  const audioContextRef = useRef(null);
 
   useEffect(() => {
     const createWaveSurfer = () => {
@@ -238,57 +238,82 @@ const AudioRecorder = () => {
   }, []);
 
   return (
-    <div>
-      <h1 style={{ marginTop: 0 }}>Press Record to start recording 🎙️</h1>
+    <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-2xl font-bold text-gray-800 mt-4">
+        Press Record to start recording 🎙️
+      </h1>
 
-      <button id="record" onClick={handleRecordClick}>
-        {isRecording ? 'Stop' : 'Record'}
-      </button>
-      <button
-        id="pause"
-        onClick={handlePauseClick}
-        style={{ display: isRecording ? 'inline-block' : 'none' }}
+      <div className="flex gap-4 mt-6">
+        <button
+          id="record"
+          onClick={handleRecordClick}
+          className={`px-4 py-2 rounded-lg text-white ${
+            isRecording ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-700'
+          } focus:outline-none`}
+        >
+          {isRecording ? 'Stop' : 'Record'}
+        </button>
+        <button
+          id="pause"
+          onClick={handlePauseClick}
+          className={`px-4 py-2 rounded-lg text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none ${
+            isRecording ? 'block' : 'hidden'
+          }`}
+        >
+          {isPaused ? 'Resume' : 'Pause'}
+        </button>
+      </div>
+
+      <select
+        ref={micSelectRef}
+        id="mic-select"
+        className="mt-4 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-blue-300"
       >
-        {isPaused ? 'Resume' : 'Pause'}
-      </button>
-
-      <select ref={micSelectRef} id="mic-select">
         <option value="" hidden>
           Select mic
         </option>
       </select>
 
-      <label>
-        <input
-          type="checkbox"
-          id="scrollingWaveform"
-          checked={scrollingWaveform}
-          onChange={(e) => setScrollingWaveform(e.target.checked)}
-        />{' '}
-        Scrolling waveform
-      </label>
+      <div className="mt-4">
+        <label className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="scrollingWaveform"
+            checked={scrollingWaveform}
+            onChange={(e) => setScrollingWaveform(e.target.checked)}
+            className="rounded border-gray-300 text-blue-600 focus:ring focus:ring-blue-300"
+          />
+          <span className="text-gray-700">Scrolling waveform</span>
+        </label>
 
-      <label>
-        <input
-          type="checkbox"
-          id="continuousWaveform"
-          checked={continuousWaveform}
-          onChange={(e) => setContinuousWaveform(e.target.checked)}
-        />{' '}
-        Continuous waveform
-      </label>
-
-      <div>
-        <h3>Frequency: {dominantFrequency ? dominantFrequency.toFixed(2) + ' Hz' : 'N/A'}</h3>
-        {frequencyWarning && (
-          <p style={{ color: 'red' }}>Warning: Frequency is too low (below 250 Hz)</p>
-        )}
+        <label className="flex items-center space-x-2 mt-2">
+          <input
+            type="checkbox"
+            id="continuousWaveform"
+            checked={continuousWaveform}
+            onChange={(e) => setContinuousWaveform(e.target.checked)}
+            className="rounded border-gray-300 text-blue-600 focus:ring focus:ring-blue-300"
+          />
+          <span className="text-gray-700">Continuous waveform</span>
+        </label>
       </div>
 
-      <div id="mic"></div>
-      <div id="recordings"></div>
+      <div className="mt-6 w-full max-w-3xl">
+        <div id="mic" className="w-full h-24 bg-gray-200 rounded-lg"></div>
+      </div>
 
-      <p ref={progressRef} id="recording-progress"></p>
+      <div id="recordings" className="mt-6 w-full max-w-3xl space-y-4"></div>
+
+      <p ref={progressRef} id="recording-progress" className="text-gray-500 mt-4"></p>
+
+      <div className="mt-6">
+        <h3 className="text-lg text-gray-800">
+          Frequency: {dominantFrequency ? `${dominantFrequency.toFixed(2)} Hz` : 'N/A'}
+        </h3>
+        {frequencyWarning && (
+          <p className="text-red-600 mt-2">Warning: Frequency is too low (below 250 Hz)</p>
+        )}
+      </div>
     </div>
   );
 };

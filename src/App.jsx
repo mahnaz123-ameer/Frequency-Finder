@@ -2,6 +2,7 @@
 import React from 'react';
 import './App.css'; // or './index.css'
 import AudioRecorder from './AudioRecorder';
+import './index.css';
 
 function App() {
   return (
