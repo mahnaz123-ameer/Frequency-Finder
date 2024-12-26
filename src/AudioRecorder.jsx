@@ -42,73 +42,41 @@ const AudioRecorder = () => {
 
       recordRef.current = record;
 
-      // Render recorded audio
       record.on('record-end', (blob) => {
         const container = document.querySelector('#recordings');
         const recordedUrl = URL.createObjectURL(blob);
-
-        // Create wavesurfer from the recorded audio
+      
+        // Create wavesurfer for the recorded audio
         const recordedWaveSurfer = WaveSurfer.create({
           container,
           waveColor: 'rgb(200, 100, 0)',
           progressColor: 'rgb(100, 50, 0)',
           url: recordedUrl,
         });
-
-        recordedWaveSurfer.on('ready', () => {
-          // After the recording is ready, perform FFT analysis
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          const source = audioContext.createBufferSource();
-          
-          // Decode audio data and setup FFT analysis
-          fetch(recordedUrl)
-            .then(response => response.arrayBuffer())
-            .then(data => {
-              audioContext.decodeAudioData(data, (buffer) => {
-                source.buffer = buffer;
-                source.connect(audioContext.destination);
-                
-                // Create an analyser node
-                analyserRef.current = audioContext.createAnalyser();
-                source.connect(analyserRef.current);
-                
-                // Start playing the audio
-                source.start();
-                
-                // Perform FFT analysis
-                performFFTAnalysis();
-              });
-            });
-        });
-
-        // Play/Pause button
-        const button = container.appendChild(document.createElement('button'));
-        button.textContent = 'Play';
-        button.onclick = () => {
+      
+        // Append the Play button
+        const playButton = container.appendChild(document.createElement('button'));
+        playButton.textContent = 'Play';
+        playButton.className =
+          'bg-blue-500 text-white px-4 py-2 rounded-lg mb-2 mr-2 hover:bg-blue-600 transition';
+        playButton.onclick = () => {
           recordedWaveSurfer.playPause();
-          // Perform FFT analysis when play button is clicked
-          if (recordedWaveSurfer.isPlaying()) {
-            source.start();
-            performFFTAnalysis();
-          }
         };
-
-        recordedWaveSurfer.on('pause', () => (button.textContent = 'Play'));
-        recordedWaveSurfer.on('play', () => {
-          button.textContent = 'Pause';
-          // Perform FFT analysis when the audio starts playing
-          source.start();
-          performFFTAnalysis();
-        });
-
-        // Download link
-        const link = container.appendChild(document.createElement('a'));
-        Object.assign(link, {
+      
+        recordedWaveSurfer.on('pause', () => (playButton.textContent = 'Play'));
+        recordedWaveSurfer.on('play', () => (playButton.textContent = 'Pause'));
+      
+        // Append the Download link below the Play button
+        const downloadLink = container.appendChild(document.createElement('a'));
+        Object.assign(downloadLink, {
           href: recordedUrl,
           download: 'recording.' + blob.type.split(';')[0].split('/')[1] || 'webm',
           textContent: 'Download recording',
         });
+        downloadLink.className =
+          'bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition';
       });
+      
 
       wavesurferRef.current = wavesurfer;
 
